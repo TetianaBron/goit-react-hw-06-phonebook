@@ -1,9 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/base.scss';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import App from './App';
+import store from './redux/store';
+import '../node_modules/modern-normalize/modern-normalize.css';
+import './styles/base.scss';
 
+console.log(store);
 
 ReactDOM.render(
-    <App />, document.querySelector('#root'),
+    <BrowserRouter>
+    <Provider store={store}>
+        <App/>
+    </Provider>
+    </BrowserRouter>,
+    document.querySelector('#root'),
 );

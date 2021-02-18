@@ -1,12 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import './ContactList.scss';
 import PropTypes from 'prop-types';
+import phoneBookActions from '../../redux/phoneBook/phoneBook-actions';
 import IconButton from '../IconButton/IconButton';
 import { ReactComponent as DeleteIcon } from '../../icons/delete.svg';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 
-const ContactList = ({ contacts, onRemoveContact }) => {
+const ContactList = ({ contacts, onRemoveContact  }) => {
     return (
             <TransitionGroup component="ul">
                 {contacts.map(({ id, name, number }, i) => (
@@ -36,4 +38,21 @@ ContactList.propTypes = {
   contacts: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default ContactList;
+const getVisibleContacts = (allTodos, filter) => {
+    const normalizedFilter = filter.toLowerCase();
+
+    return allTodos.filter(({ name }) =>
+        name.toLowerCase().includes(normalizedFilter),
+    );
+};
+
+const mapStateToProps = ({ phoneBook: { contacts, filter } }) => ({
+    contacts: getVisibleContacts(contacts, filter),
+});
+
+const mapDispatchToProps = dispatch => ({
+    onRemoveContact: id => dispatch(phoneBookActions.removeContact(id)),
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactList);

@@ -1,14 +1,16 @@
+import { connect } from 'react-redux';
+import phoneBookActions from '../../redux/phoneBook/phoneBook-actions';
 import './Filter.scss';
 import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 
 
 const Filter = ({value, onChangeFilter, contacts}) => (
-    <CSSTransition
-        in={contacts.length > 1}
-        timeout={250}
-        classNames="Filter-fade"
-        unmountOnExit>
+    // <CSSTransition
+    //     in={contacts.length > 1}
+    //     timeout={250}
+    //     classNames="Filter-fade"
+    //     unmountOnExit>
         
         <div className="FindForm">
             <label
@@ -21,9 +23,9 @@ const Filter = ({value, onChangeFilter, contacts}) => (
                 value={value}
                 id="find"
                 className="FindInput"
-                onChange={e => onChangeFilter(e.target.value)}/>
+                onChange={onChangeFilter}/>
         </div>
-    </CSSTransition>
+    // </CSSTransition>
 )
 
 Filter.propTypes = {
@@ -32,4 +34,12 @@ Filter.propTypes = {
   contacts: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default Filter;
+const mapStateToProps = (state) => ({
+    value: state.phoneBook.filter,
+})
+
+const mapDispatchToProps = dispatsh => ({
+    onChangeFilter: e => dispatsh(phoneBookActions.changeFilter(e.target.value))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);
