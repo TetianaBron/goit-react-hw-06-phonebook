@@ -78,6 +78,25 @@ class ContactForm extends Component {
     }
  }
 
+//    setMassge = (note) => {
+//       this.setState({ message:  note});
+//       setTimeout(() => {
+//       this.setState({ message: null });
+//       }, 2500);
+//     }
+    //f (name === '') {
+    //         this.setMassge('Enter concact name, please!');
+    //         return;
+    //     }
+    //     if (number === '') {
+    //         this.setMassge('Enter concact phone, please!');
+    //         return;
+    //     }
+    //     if (this.state.contacts.find((item) => item.name.toLowerCase() === name.toLowerCase())) {
+    //         this.setMassge('Contact already exists!');
+    //         return;
+    //     } 
+     
 const mapDispatchToProps = dispatch => ({
     onSubmit: (name, number) => dispatch(phoneBookActions.addContact(name, number)),
 });

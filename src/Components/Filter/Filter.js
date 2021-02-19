@@ -6,11 +6,11 @@ import { CSSTransition } from 'react-transition-group';
 
 
 const Filter = ({value, onChangeFilter, contacts}) => (
-    // <CSSTransition
-    //     in={contacts.length > 1}
-    //     timeout={250}
-    //     classNames="Filter-fade"
-    //     unmountOnExit>
+    <CSSTransition
+        in={contacts.length > 1}
+        timeout={250}
+        classNames="Filter-fade"
+        unmountOnExit>
         
         <div className="FindForm">
             <label
@@ -25,7 +25,7 @@ const Filter = ({value, onChangeFilter, contacts}) => (
                 className="FindInput"
                 onChange={onChangeFilter}/>
         </div>
-    // </CSSTransition>
+     </CSSTransition>
 )
 
 Filter.propTypes = {
@@ -36,6 +36,7 @@ Filter.propTypes = {
 
 const mapStateToProps = (state) => ({
     value: state.phoneBook.filter,
+    contacts: state.phoneBook.contacts,
 })
 
 const mapDispatchToProps = dispatsh => ({

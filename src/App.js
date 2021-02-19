@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import ContactForm from './Components/ContactForm/ContactForm';
 import Layout from './Components/Layout/Layout';
 import Filter from './Components/Filter/Filter';
@@ -8,10 +9,8 @@ import Notification from './Components/Notification/Notification';
 import Logo from './Components/Logo/Logo';
 
 
-export default class App extends Component {
+class App extends Component {
     state = {
-        // contacts: [],
-        // filter: '',
         message: null
     };
 
@@ -76,15 +75,20 @@ export default class App extends Component {
                 <ContactForm /> 
                     
                 <Filter />
-                    {/*  contacts={contacts} */}
 
-                {/* <CSSTransition
-                    in={contacts.length > 0}
+                <CSSTransition
+                    in={this.props.contacts.length > 0}
                     timeout={0}
-                    ommountOnExit>      */}
+                    ommountOnExit>     
                 <ContactList />
-                {/* </CSSTransition> */}
+                </CSSTransition>
             </Layout>
         );
     }
 }
+
+const mapStateToProps = (state) => ({
+    contacts: state.phoneBook.contacts,
+})
+
+export default connect(mapStateToProps, null)(App);
