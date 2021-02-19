@@ -1,4 +1,4 @@
-import { configureStore, getDefaultMiddleware , combineReducers } from '@reduxjs/toolkit'; 
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'; 
 import logger from 'redux-logger';
 import {
   persistStore,
@@ -22,19 +22,16 @@ const middleware = [
   logger,
 ];
 
-const persistConfig = {
-    key: 'root',
+const phoneBookPersistConfig = {
+    key: 'phoneBook',
     storage,
+    blacklist: ['filter'],
 };
 
-const rootReducer = combineReducers({
-    phoneBook: phoneBookReducer,
-});
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
 const store = configureStore({
-    reducer: persistedReducer,
+    reducer: {
+    phoneBook: persistReducer(phoneBookPersistConfig, phoneBookReducer),
+    },
     middleware,
     devTools: process.env.NODE_ENV === 'development',
 })

@@ -1,21 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import phoneBookActions from '../../redux/phoneBook/phoneBook-actions';
+import Notification from '../../Components/Notification/Notification';
 import PropTypes from 'prop-types';
 import './ContactForm.scss';
 
 class ContactForm extends Component {
     state = {
         name: '',
-        number: ''
+        number: '',
+        message: null
     };
 
     static propTypes = {
+        contacts: PropTypes.arrayOf(PropTypes.object),
         onSubmit: PropTypes.func,
     };
 
-    static defaultProps = {};
-
+    setMassge = (note) => {
+      this.setState({ message:  note});
+      setTimeout(() => {
+      this.setState({ message: null });
+      }, 2500);
+    }
+    
     handleChange = e => {
         const { name, value } = e.target;
             this.setState({
@@ -23,9 +31,23 @@ class ContactForm extends Component {
             });
     };
 
+    
     handleSubmit = e => {
         const { name, number } = this.state;
         e.preventDefault();
+
+        if (name === '') {
+            this.setMassge('Enter contact name, please!');
+            return;
+        }
+        if (number === '') {
+            this.setMassge('Enter concact phone, please!');
+            return;
+        }
+        if (this.props.contacts.find((item) => item.name.toLowerCase() === name.toLowerCase())) {
+            this.setMassge('Contact already exists!');
+            return;
+        } 
 
         this.props.onSubmit(name, number);
         this.setState({
@@ -35,9 +57,11 @@ class ContactForm extends Component {
     }; 
     
     render() {
-        const { name, number } = this.state;
+        const { name, number, message } = this.state;
         return (
             <div>
+                <Notification
+                    message={message} />
                 <form
                     className="Form"
                     onSubmit={this.handleSubmit} >
@@ -78,27 +102,12 @@ class ContactForm extends Component {
     }
  }
 
-//    setMassge = (note) => {
-//       this.setState({ message:  note});
-//       setTimeout(() => {
-//       this.setState({ message: null });
-//       }, 2500);
-//     }
-    //f (name === '') {
-    //         this.setMassge('Enter concact name, please!');
-    //         return;
-    //     }
-    //     if (number === '') {
-    //         this.setMassge('Enter concact phone, please!');
-    //         return;
-    //     }
-    //     if (this.state.contacts.find((item) => item.name.toLowerCase() === name.toLowerCase())) {
-    //         this.setMassge('Contact already exists!');
-    //         return;
-    //     } 
+const mapStateToProps = (state) => ({
+    contacts: state.phoneBook.contacts,
+})
      
 const mapDispatchToProps = dispatch => ({
     onSubmit: (name, number) => dispatch(phoneBookActions.addContact(name, number)),
 });
 
-export default connect(null, mapDispatchToProps)(ContactForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
