@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
 import store from './redux/store';
-import Spinner from './Components/Spinner/Spinner';
+import Spinner from './components/Spinner/Spinner';
 import '../node_modules/modern-normalize/modern-normalize.css';
 import './styles/base.scss';
 

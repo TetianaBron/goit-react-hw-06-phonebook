@@ -38,10 +38,10 @@ ContactList.propTypes = {
   contacts: PropTypes.arrayOf(PropTypes.object),
 };
 
-const getVisibleContacts = (allTodos, filter) => {
+const getVisibleContacts = (allContacts, filter) => {
     const normalizedFilter = filter.toLowerCase();
 
-    return allTodos.filter(({ name }) =>
+    return allContacts.filter(({ name }) =>
         name.toLowerCase().includes(normalizedFilter),
     );
 };
